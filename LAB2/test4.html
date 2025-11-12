@@ -1,0 +1,46 @@
+<html>
+<head>
+    <title>JS Example</title>
+</head>
+<body>
+    <h1 id="head">JS Example</h1>
+    <input type="text" id="username" name="username" value="">
+    <p id="uError"></p>
+    <input type="password" id="password" name="password" value="">
+    <p id="pError"></p>
+    <input type="button" name="" value="Submit" onclick="test()">
+
+    <script>
+        function test(){
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const uError = document.getElementById('uError');
+            const pError = document.getElementById('pError');
+
+            // reset error messages
+            uError.innerHTML = "";
+            pError.innerHTML = "";
+
+            let valid = true;
+
+            if (username === "") {
+                uError.innerHTML = "please type username first!";
+                uError.style.color = "red";
+                valid = false;
+            }
+
+            if (password === "") {
+                pError.innerHTML = "please type password!";
+                pError.style.color = "red";
+                valid = false;
+            }
+
+            // only show when BOTH are filled
+            if (valid) {
+                // show both values (demo only)
+                document.getElementById('head').innerHTML = username + " | " + password;
+            }
+        }
+    </script>
+</body>
+</html>
