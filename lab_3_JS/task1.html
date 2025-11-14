@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Task 1 - Name Validation</title>
+    <style>.error { color: red; }</style>
+</head>
+<body>
+<h1>Task 1 - Name</h1>
+
+<form onsubmit="return validateForm()">
+    Name: <input type="text" id="name">
+    <p id="nameError" class="error"></p>
+    <input type="submit" value="Submit">
+</form>
+
+<script>
+    function isLetter(ch) {
+        var code = ch.charCodeAt(0);
+        return (code >= 65 && code <= 90) || (code >= 97 && code <= 122);
+    }
+
+    function isNameChar(ch) {
+        if (isLetter(ch) || ch === '.' || ch === '-' || ch === ' ') {
+            return true;
+        }
+        return false;
+    }
+
+    function validateName() {
+        var name = document.getElementById('name').value;
+        var err = document.getElementById('nameError');
+        err.innerHTML = "";
+
+        // trim spaces manually (no regex)
+        while (name.length > 0 && name[0] === ' ') {
+            name = name.substring(1);
+        }
+        while (name.length > 0 && name[name.length - 1] === ' ') {
+            name = name.substring(0, name.length - 1);
+        }
+
+        if (name === "") {
+            err.innerHTML = "Name cannot be empty.";
+            return false;
+        }
+
+        // must start with a letter
+        if (!isLetter(name[0])) {
+            err.innerHTML = "Name must start with a letter.";
+            return false;
+        }
+
+        // check allowed characters + count words
+        var wordCount = 0;
+        var inWord = false;
+        var i, ch;
+
+        for (i = 0; i < name.length; i++) {
+            ch = name[i];
+
+            if (!isNameChar(ch)) {
+                err.innerHTML = "Name can only contain letters, dot (.), dash (-) and space.";
+                return false;
+            }
+
+            if (ch !== ' ' && inWord === false) {
+                inWord = true;
+                wordCount = wordCount + 1;
+            } else if (ch === ' ') {
+                inWord = false;
+            }
+        }
+
+        if (wordCount < 2) {
+            err.innerHTML = "Name must contain at least two words.";
+            return false;
+        }
+
+        return true;
+    }
+
+    function validateForm() {
+        return validateName();
+    }
+</script>
+</body>
+</html>
