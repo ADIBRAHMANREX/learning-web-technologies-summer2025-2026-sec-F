@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Dashboard - Believe</title>
+    <link rel="stylesheet" href="donor_style.css">
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Believe - Donor Dashboard</h1>
+    <button id="logoutBtn">Logout</button>
+</div>
+
+<div class="profile-box">
+    <h2>Welcome, <span id="donorName">User</span></h2>
+    <p>Email: <span id="donorEmail">example@email.com</span></p>
+</div>
+
+<hr>
+
+<h2>Your Donation History</h2>
+<table class="history-table">
+    <tr>
+        <th>Project</th>
+        <th>Date</th>
+        <th>Amount</th>
+    </tr>
+
+    <!-- XML placeholder demo row -->
+    <tr>
+        <td>Water Supply Project</td>
+        <td>2025-01-18</td>
+        <td>BDT 2500</td>
+    </tr>
+
+    <tr>
+        <td>Education Support</td>
+        <td>2025-01-24</td>
+        <td>BDT 1500</td>
+    </tr>
+</table>
+
+<hr>
+
+<h2>Ongoing Projects</h2>
+
+<div class="project-container">
+
+    <div class="project-card">
+        <img src="" alt="Project Image placeholder">
+        <h3>School Renovation</h3>
+        <p>Providing educational infrastructure</p>
+        <button class="donate-btn">Donate Now</button>
+    </div>
+
+    <div class="project-card">
+        <img src="" alt="Project Image placeholder">
+        <h3>Clean Water Distribution</h3>
+        <p>Ensuring clean water in rural areas</p>
+        <button class="donate-btn">Donate Now</button>
+    </div>
+
+    <div class="project-card">
+        <img src="" alt="Project Image placeholder">
+        <h3>Health Support</h3>
+        <p>Medical support for children</p>
+        <button class="donate-btn">Donate Now</button>
+    </div>
+
+</div>
+
+<script src="donor_script.js"></script>
+
+</body>
+</html>
