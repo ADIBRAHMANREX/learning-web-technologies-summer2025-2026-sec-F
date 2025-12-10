@@ -17,7 +17,7 @@
   </style>
 </head>
 <body>
-  <header class="top-bar"><h1 class="brand">Believe</h1></header>
+  <header class="top-bar"><a href="index.html" class="brand">Believe</a></header>
 
   <main>
     <section class="auth-wrap">
@@ -97,36 +97,82 @@
     closeBtn.onclick = () => popUp.style.display = 'none';
     window.onclick = function(e){ if(e.target == popUp) popUp.style.display = 'none'; }
 
-    // Signup (store demo user in localStorage)
-    document.getElementById('signup-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('signup-name').value.trim();
-      const email = document.getElementById('signup-email').value.trim();
-      const pw = document.getElementById('signup-password').value;
-      const role = document.getElementById('signup-role').value;
-      if (pw.length < 8) return alert('Password must be at least 8 characters (demo rule).');
-      const users = JSON.parse(localStorage.getItem('demoUsers') || '[]');
-      if (users.some(u => u.email === email)) return alert('Email already used (demo).');
-      users.push({ name, email, password: pw, role });
-      localStorage.setItem('demoUsers', JSON.stringify(users));
-      alert('Account created (demo). You can now login.');
-      popUp.style.display = 'none';
-    });
+    // Signup (store demo user in localStorage with status)
+document.getElementById('signup-form').addEventListener('submit', (e) => {
+  e.preventDefault();
 
-    // Login (demo)
-    document.getElementById('login-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('login-email').value.trim();
-      const pw = document.getElementById('login-password').value;
-      const users = JSON.parse(localStorage.getItem('demoUsers') || '[]');
-      const user = users.find(u => u.email === email && u.password === pw);
-      if (!user) return alert('Email or password does not match (demo).');
-      // store session (demo)
-      localStorage.setItem('demoSession', JSON.stringify({ email: user.email, name: user.name, role: user.role }));
-      alert('Login successful (demo). Redirecting to appropriate dashboard...');
-      if (user.role === 'ngo') location.href = 'ngo.html';
-      else location.href = 'donor.html';
-    });
+  const name  = document.getElementById('signup-name').value.trim();
+  const lname = document.getElementById('signup-lname').value.trim();
+  const email = document.getElementById('signup-email').value.trim();
+  const pw    = document.getElementById('signup-password').value;
+  const role  = document.getElementById('signup-role').value;
+
+  if (pw.length < 8) return alert('Password must be at least 8 characters (demo rule).');
+
+  let users = JSON.parse(localStorage.getItem('demoUsers') || '[]');
+
+  if (users.some(u => u.email === email)) {
+    return alert('Email already used (demo).');
+  }
+
+  // New: status field
+  // Donor => approved immediately
+  // NGO   => pending approval
+  const status = (role === 'ngo') ? 'pending' : 'approved';
+
+  const newUser = { name, lname, email, password: pw, role, status };
+  users.push(newUser);
+  localStorage.setItem('demoUsers', JSON.stringify(users));
+
+  alert('Account created (demo). You can now login. NGO accounts require admin approval.');
+  popUp.style.display = 'none';
+});
+
+
+  
+    // Login (demo with NGO approval check)
+document.getElementById('login-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById('login-email').value.trim();
+  const pw    = document.getElementById('login-password').value;
+
+  const users = JSON.parse(localStorage.getItem('demoUsers') || '[]');
+  const user  = users.find(u => u.email === email && u.password === pw);
+
+  if (!user) return alert('Email or password does not match (demo).');
+
+  // Default status fallback for old users
+  const userStatus = user.status || (user.role === 'ngo' ? 'pending' : 'approved');
+
+  // store session (demo)
+  localStorage.setItem(
+    'demoSession',
+    JSON.stringify({
+      email:  user.email,
+      name:   user.name,
+      role:   user.role,
+      status: userStatus
+    })
+  );
+
+  // Routing based on role + status
+  if (user.role === 'ngo') {
+    if (userStatus !== 'approved') {
+      alert('Your NGO account is pending admin approval. You can login later once approved.');
+      // Send to a simple "pending" page
+      window.location.href = 'ngo_pending.html';
+    } else {
+      alert('Login successful (demo). Redirecting to NGO dashboard...');
+      window.location.href = 'ngo.html';
+    }
+  } else {
+    // Donor
+    alert('Login successful (demo). Redirecting to Donor dashboard...');
+    window.location.href = 'donor_dashboard.html'; // use your actual donor dashboard file
+  }
+});
+
 
     // ---------------- Forgot Password Logic ----------------
 const forgotLink = document.getElementById('forgot-link');

@@ -1,3 +1,8 @@
+document.querySelector('.brand').onclick = function(){
+    window.location.href = "index.html";
+};
+
+
 // Basic UI behaviors for navigation and demo login/signup (frontend-only mock)
 
 // Sign up newsletter (footer)

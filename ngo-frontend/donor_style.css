@@ -1,3 +1,26 @@
+/* Project progress inside donor cards */
+.project-progress {
+    margin-top: 10px;
+    text-align: left;
+    font-size: 13px;
+}
+
+.project-progress .progress {
+    height: 8px;
+    background: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.project-progress .progress span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg,#1656a2,#0f4176);
+}
+
+
+
 body{
     font-family: Arial, sans-serif;
     background: #f2f5f9;
@@ -43,22 +66,24 @@ body{
     padding: 10px;
 }
 
-.project-container{
+.project-container {
     display: flex;
-    gap: 25px;
-    justify-content: center;
-    flex-wrap: wrap;
-    padding-bottom: 40px;
+    flex-direction: row;
+    justify-content: center; /* Centers horizontally */
+    gap: 20px;               /* Space between cards */
+    flex-wrap: nowrap;       /* Prevents wrapping to next line */
+    margin-top: 20px;
 }
 
-.project-card{
+.project-card {
+    width: 260px;
     background: white;
-    width: 230px;
     padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     text-align: center;
-    border-radius: 8px;
-    box-shadow: 0px 0px 5px #aaa;
 }
+
 
 .project-card img{
     width:100%;
@@ -79,4 +104,33 @@ body{
 
 .donate-btn:hover{
     background:#0f4176;
+}
+/* Status badges in donation history */
+.status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Colors for each status */
+.status-processing {
+    background: #fff7e6;
+    color: #b26b00;
+}
+
+.status-received {
+    background: #e6f4ff;
+    color: #0b63b6;
+}
+
+.status-implementing {
+    background: #f3e6ff;
+    color: #6b2fb6;
+}
+
+.status-completed {
+    background: #e6f7e9;
+    color: #1f7a34;
 }
